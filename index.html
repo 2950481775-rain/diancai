@@ -1611,6 +1611,15 @@ async function boot() {
   }
 
   syncMe();
+  while (!S.me) {
+    var had = S.people.length > 0;
+    if (had) await sleep(2500);
+    syncMe();
+    if (!S.me) {
+      var registered = await askName(!had);
+      if (!registered) toast('请登记称呼后进入');
+    }
+  }
   render();
 }
 
